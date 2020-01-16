@@ -1,0 +1,63 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movieapp/data/pojo/MovieResponse.dart';
+import 'package:movieapp/ui/screens/favourite/bloc/favorite_state.dart';
+import 'package:movieapp/ui/screens/favourite/favorite_item_widget.dart';
+import 'package:movieapp/utils/Locale.dart';
+import 'package:movieapp/utils/di.dart';
+
+import '../../AppWidgets.dart';
+import 'bloc/favorite_bloc.dart';
+import 'bloc/favorite_event.dart';
+
+class FavoriteScreen extends StatefulWidget {
+  FavoriteScreen({Key key}) : super(key: key);
+
+  @override
+  _FavoriteScreenState createState() => _FavoriteScreenState();
+}
+
+class _FavoriteScreenState extends State<FavoriteScreen> {
+  FavoriteBloc _favoriteBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _favoriteBloc = getIt<FavoriteBloc>();
+    _favoriteBloc.add(FavoriteMovies());
+  }
+
+  unFavoriteMovie(Movie movie) {
+    _favoriteBloc.add(UnFavoriteMovie(movie));
+    Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text(appLocale.tr('UnFavorite_Msg', args: [movie.title]))));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<FavoriteBloc, FavoriteState>(
+      builder: (context, state) => Container(
+        width: double.infinity,
+        color: Colors.blueGrey[900],
+        child: getWidget(state),
+      ),
+    );
+  }
+
+  Widget getWidget(FavoriteState movieState) {
+    print(movieState.runtimeType.toString());
+    if (movieState is LoadingMovies) {
+      return ProgressBar();
+    } else if (movieState is GetFavortieMovies)
+      return ListView.builder(
+        itemCount: movieState.movies.length,
+        itemBuilder: (context, index) {
+          return FavoriteItemWidget(
+            movieState.movies[index],
+            () => unFavoriteMovie(movieState.movies[index]),
+          );
+        },
+      );
+    return null;
+  }
+}
