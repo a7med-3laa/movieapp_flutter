@@ -19,6 +19,10 @@
   "Alert_content": "لتغيير اللغة ، يجب علينا تنظيف المفضلة لديك\n هل أنت متأكد؟",
   "Alert_clear": "مسح",
   "Alert_cancel": "الغاء",
-  "Location_Error": "We need your location"
+  "Location_Error": "نحن بحاجة للوصول إلى موقعك",
+  "Internet_Error": "لا يوجد اتصال إنترنت",
+  "Server_Error": "آسف ،  يوجد لدينا خطأ ما ",
+  "Unknown_network_error": "حدث خطأ غير متوقع",
+  "Favourite_empty": "ليس لديك أفلام مفضلة"
 
 }

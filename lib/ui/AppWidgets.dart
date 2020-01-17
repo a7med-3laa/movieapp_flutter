@@ -14,6 +14,8 @@ class RoundedImage extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.all(Radius.circular(5.0)),
       child: FadeInImage(
+        fadeInDuration: Duration(milliseconds: 200),
+        fadeOutDuration: Duration(milliseconds: 200),
         placeholder: AssetImage(imgplaceHolder),
         image: NetworkImage(imgPath),
         fit: BoxFit.fill,

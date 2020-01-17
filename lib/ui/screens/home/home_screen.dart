@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieapp/data/pojo/MovieResponse.dart';
@@ -8,6 +9,7 @@ import 'package:movieapp/ui/screens/favourite/bloc/favorite_bloc.dart';
 import 'package:movieapp/ui/screens/home/bloc/movie_block.dart';
 import 'package:movieapp/ui/screens/home/bloc/movie_events.dart';
 import 'package:movieapp/ui/screens/home/bloc/movie_state.dart';
+import 'package:movieapp/utils/Locale.dart';
 import 'package:movieapp/utils/di.dart';
 import 'home_item_widget.dart';
 
@@ -36,6 +38,17 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget getScreen(MovieState movieState) {
     if (movieState is FetchingMovies) {
       return ProgressBar();
+    }
+    if (movieState is ErrorFetchingMovies) {
+      return Center(
+        child: AutoSizeText(
+          appLocale.tr(movieState.msg),
+          minFontSize: 20,
+          maxFontSize: 30,
+          style: TextStyle(color: AppColors.TEXT_COLOR),
+          textAlign: TextAlign.center,
+        ),
+      );
     } else if (movieState is SuccessFetchedMovies)
       return GridView.builder(
         itemCount: movieState.movies.length,

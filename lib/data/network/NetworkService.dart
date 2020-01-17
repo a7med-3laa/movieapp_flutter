@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:movieapp/data/network/ApiResponse.dart';
 import 'package:movieapp/data/network/RestClient.dart';
 import 'package:movieapp/data/pojo/CastResponse.dart';
 import 'package:movieapp/data/pojo/MovieResponse.dart';
@@ -39,24 +40,28 @@ class NetworkService {
     _restClient = RestClient(dio);
   }
 
-  Future<List<Movie>> getMovies() async {
-    var movies = await _getMovies();
+  Future<ApiResponse<List<Movie>>> getMovies() async {
+    try {
+      var movies = await _getMovies();
 
-    List<MovieHolder> list = await Future.wait(movies.map((itemId) =>
-        ZipStream.zip4<MovieDetailsResponse, List<Review>, List<TrailersResult>,
-                List<CastElement>, MovieHolder>(
-            Stream.fromFuture(_getMovieDetails(itemId.id)),
-            Stream.fromFuture(_getReviews(itemId.id)),
-            Stream.fromFuture(_getTrailers(itemId.id)),
-            Stream.fromFuture(_getActors(itemId.id)),
-            (MovieDetailsResponse response, List<Review> reviews,
-                    List<TrailersResult> trailer, List<CastElement> crew) =>
-                MovieHolder(response, trailer, reviews, crew)).first));
+      List<MovieHolder> list = await Future.wait(movies.map((itemId) =>
+          ZipStream.zip4<MovieDetailsResponse, List<Review>,
+                  List<TrailersResult>, List<CastElement>, MovieHolder>(
+              Stream.fromFuture(_getMovieDetails(itemId.id)),
+              Stream.fromFuture(_getReviews(itemId.id)),
+              Stream.fromFuture(_getTrailers(itemId.id)),
+              Stream.fromFuture(_getActors(itemId.id)),
+              (MovieDetailsResponse response, List<Review> reviews,
+                      List<TrailersResult> trailer, List<CastElement> crew) =>
+                  MovieHolder(response, trailer, reviews, crew)).first));
 
-    int index = 0;
-    return list.map((response) {
-      return movies[index++].setData(response);
-    }).toList();
+      int index = 0;
+      return ApiResponse<List<Movie>>.completed(list.map((response) {
+        return movies[index++].setData(response);
+      }).toList());
+    } on DioError catch (e) {
+      return ApiResponse.error(e);
+    }
   }
 
   Future<List<Movie>> _getMovies() async {

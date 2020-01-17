@@ -3,49 +3,57 @@ import 'package:dio/dio.dart';
 class ApiResponse<T> {
   Status status;
   T data;
-  String message;
+  String messageKey;
 
-  ApiResponse.loading(this.message) : status = Status.LOADING;
+  ApiResponse.loading() : status = Status.LOADING;
 
   ApiResponse.completed(this.data) : status = Status.COMPLETED;
 
-  ApiResponse.error(this.message) : status = Status.ERROR;
+  ApiResponse.error(DioError error)
+      : status = Status.ERROR,
+        messageKey = _handleError(error);
 
   @override
   String toString() {
-    return "Status : $status \n Message : $message \n Data : $data";
+    return "Status : $status \n Message : $messageKey \n Data : $data";
   }
 
-  String _handleError(Error error) {
-    String errorDescription = "";
+  static String _handleError(DioError error) {
+    String key = "";
     if (error is DioError) {
       DioError dioError = error as DioError;
       switch (dioError.type) {
         case DioErrorType.CANCEL:
-          errorDescription = "Request to API server was cancelled";
+          print("Request to API server was cancelled");
           break;
         case DioErrorType.CONNECT_TIMEOUT:
-          errorDescription = "Connection timeout with API server";
+          print("Connection timeout with API server");
+          key = 'Internet_Error';
           break;
         case DioErrorType.SEND_TIMEOUT:
-          errorDescription = "Connection timeout with API server";
+          print("Connection timeout with API server");
+          key = 'Internet_Error';
           break;
         case DioErrorType.DEFAULT:
-          errorDescription =
-              "Connection to API server failed due to internet connection";
+          key = 'Internet_Error';
+          print("No internet connection");
+
           break;
         case DioErrorType.RECEIVE_TIMEOUT:
-          errorDescription = "Receive timeout in connection with API server";
+          key = 'Internet_Error';
+          print("Receive timeout in connection with API server");
+
           break;
         case DioErrorType.RESPONSE:
-          errorDescription =
-              "Received invalid status code: ${dioError.response.statusCode}";
+          print(
+              "Received invalid status code: ${dioError.response.statusCode}");
+          key = 'Server_Error';
           break;
       }
     } else {
-      errorDescription = "Unexpected error occured";
+      key = 'Unknown_network_error';
     }
-    return errorDescription;
+    return key;
   }
 }
 
