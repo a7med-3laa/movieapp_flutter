@@ -2,10 +2,12 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:movieapp/data/pojo/trailers_entity.dart';
 import 'package:movieapp/resources/AppColors.dart';
+import 'package:movieapp/ui/AppWidgets.dart';
 import 'package:movieapp/utils/UrlUtils.dart';
 
 class VideoItemWidget extends StatelessWidget {
   final TrailersResult trailer;
+
   VideoItemWidget(this.trailer);
 
   @override
@@ -25,14 +27,11 @@ class VideoItemWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                child: Image.network(
-                  'https://img.youtube.com/vi/${trailer.key}/sddefault.jpg',
-                  fit: BoxFit.cover,
-                  height: 110,
-                  width: 150,
-                ),
+              RoundedImage(
+                imgPath:
+                    'https://img.youtube.com/vi/${trailer.key}/sddefault.jpg',
+                height: 110,
+                width: 150,
               ),
               SizedBox(
                 height: 5,

@@ -1,20 +1,22 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:date_format/date_format.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movieapp/data/pojo/MovieResponse.dart';
 import 'package:movieapp/resources/AppColors.dart';
-import 'package:date_format/date_format.dart';
+import 'package:movieapp/ui/AppWidgets.dart';
 import 'package:movieapp/ui/screens/favourite/bloc/bloc.dart';
 import 'package:movieapp/ui/screens/movie_detail/MovieDetailsWidgets.dart';
 import 'package:movieapp/ui/screens/movie_detail/actor_item_widget.dart';
 import 'package:movieapp/ui/screens/movie_detail/review_item_widget.dart';
-import 'package:movieapp/ui/screens/movie_detail/video_item_widget.dart';
 import 'package:movieapp/ui/screens/movie_detail/review_screen.dart';
+import 'package:movieapp/ui/screens/movie_detail/video_item_widget.dart';
 import 'package:movieapp/utils/Locale.dart';
 import 'package:movieapp/utils/UrlUtils.dart';
 import 'package:movieapp/utils/di.dart';
 import 'package:movieapp/utils/typed_text.dart';
+
 import '../../../constants.dart';
 
 class MovieDetails extends StatefulWidget {
@@ -264,9 +266,8 @@ class HeaderWidget extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(5.0)),
             child: Hero(
               tag: movie.posterPath,
-              child: Image.network(
-                '$IMAGE_PATH${movie.posterPath}',
-                fit: BoxFit.fill,
+              child: RoundedImage(
+                imgPath: '$IMAGE_PATH${movie.posterPath}',
                 height: 200,
               ),
             ),

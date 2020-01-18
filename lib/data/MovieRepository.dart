@@ -2,6 +2,7 @@ import 'package:movieapp/data/database/DbService.dart';
 import 'package:movieapp/data/network/ApiResponse.dart';
 import 'package:movieapp/data/network/NetworkService.dart';
 import 'package:movieapp/data/pojo/MovieResponse.dart';
+
 import '../utils/di.dart' as di;
 
 class MovieRepository {
@@ -14,11 +15,11 @@ class MovieRepository {
   }
 
   Future<ApiResponse<List<Movie>>> fetchMovies(
-      {bool fetchFromDb = false}) async {
+      {bool fetchFromDb = false, int page = 1}) async {
     if (fetchFromDb) {
       return ApiResponse.completed(await _dbService.getMovies());
     } else {
-      ApiResponse apiResponse = await _networkService.getMovies();
+      ApiResponse apiResponse = await _networkService.getMovies(page);
       if (apiResponse.status == Status.COMPLETED) {
         Set<int> movieIds = await _dbService.getMoviesID();
         List<Movie> movies = apiResponse.data;

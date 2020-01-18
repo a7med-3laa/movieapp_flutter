@@ -6,11 +6,14 @@ class MovieEvent extends Equatable {
 }
 
 class FetchMoviesEvent extends MovieEvent {
+  final int pageNumber = 1;
   @override
-  List<Object> get props => [];
+  List<Object> get props => [pageNumber];
 }
 
 class ReFetchMoviesEvent extends MovieEvent {
+  final int pageNumber = 1;
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [pageNumber];
 }

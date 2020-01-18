@@ -40,9 +40,9 @@ class NetworkService {
     _restClient = RestClient(dio);
   }
 
-  Future<ApiResponse<List<Movie>>> getMovies() async {
+  Future<ApiResponse<List<Movie>>> getMovies(int page) async {
     try {
-      var movies = await _getMovies();
+      var movies = await _getMovies(page);
 
       List<MovieHolder> list = await Future.wait(movies.map((itemId) =>
           ZipStream.zip4<MovieDetailsResponse, List<Review>,
@@ -64,8 +64,8 @@ class NetworkService {
     }
   }
 
-  Future<List<Movie>> _getMovies() async {
-    var moveResponse = await _restClient.getMovies();
+  Future<List<Movie>> _getMovies(int page) async {
+    var moveResponse = await _restClient.getMovies(page);
     return moveResponse.movies;
   }
 

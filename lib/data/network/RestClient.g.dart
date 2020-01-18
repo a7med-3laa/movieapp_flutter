@@ -17,9 +17,10 @@ class _RestClient implements RestClient {
   String baseUrl;
 
   @override
-  getMovies() async {
+  getMovies(page) async {
+    ArgumentError.checkNotNull(page, 'page');
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{'page': page};
     final _data = <String, dynamic>{};
     final Response<Map<String, dynamic>> _result = await _dio.request(
         'discover/movie?sort_by=popularity.desc',

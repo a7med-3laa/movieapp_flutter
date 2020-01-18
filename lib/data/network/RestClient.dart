@@ -2,8 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:movieapp/data/pojo/CastResponse.dart';
 import 'package:movieapp/data/pojo/MovieResponse.dart';
 import 'package:movieapp/data/pojo/movie_details_response.dart';
-import 'package:movieapp/data/network/ApiResponse.dart';
-
 import 'package:movieapp/data/pojo/review_response.dart';
 import 'package:movieapp/data/pojo/trailers_entity.dart';
 import 'package:retrofit/retrofit.dart';
@@ -17,7 +15,7 @@ abstract class RestClient {
   factory RestClient(Dio dio) = _RestClient;
 
   @GET(MOVIES_PATH)
-  Future<MovieResponse> getMovies();
+  Future<MovieResponse> getMovies(@Query('page') int page);
 
   @GET(MOVIES_DETAILS_PATH)
   Future<MovieDetailsResponse> getMovieDetails(@Path('id') int movieID);

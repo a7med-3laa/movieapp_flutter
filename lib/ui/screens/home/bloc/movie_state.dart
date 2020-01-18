@@ -6,9 +6,15 @@ abstract class MovieState extends Equatable {
   List<Object> get props => [];
 }
 
-class FetchingMovies extends MovieState {}
+class FetchingMovies extends MovieState {
+  @override
+  List<Object> get props => [];
+}
 
-class InitialState extends MovieState {}
+class InitialState extends MovieState {
+  @override
+  List<Object> get props => [];
+}
 
 class ErrorFetchingMovies extends MovieState {
   final String msg;

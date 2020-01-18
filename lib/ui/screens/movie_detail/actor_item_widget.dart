@@ -1,10 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:movieapp/data/pojo/CastResponse.dart';
+import 'package:movieapp/ui/AppWidgets.dart';
+
 import '../../../constants.dart';
 
 class ActorItemWidget extends StatelessWidget {
   final CastElement actor;
+
   ActorItemWidget(this.actor);
 
   @override
@@ -19,12 +22,10 @@ class ActorItemWidget extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-            ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(5.0)),
-              child: Image.network(
-                '$IMAGE_PATH${actor.profilePath}',
-                fit: BoxFit.fill,
-              ),
+            RoundedImage(
+              imgPath: '$IMAGE_PATH${actor.profilePath}',
+              height: 100,
+              width: 150,
             ),
             Align(
               alignment: Alignment.bottomCenter,

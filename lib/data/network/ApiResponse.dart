@@ -21,7 +21,7 @@ class ApiResponse<T> {
   static String _handleError(DioError error) {
     String key = "";
     if (error is DioError) {
-      DioError dioError = error as DioError;
+      DioError dioError = error;
       switch (dioError.type) {
         case DioErrorType.CANCEL:
           print("Request to API server was cancelled");

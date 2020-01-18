@@ -10,7 +10,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   MovieRepository _movieRepository;
   FavoriteBloc favoriteBloc;
   List<Movie> _movies;
-
+  int lastPageNumber = 0;
   MovieBloc({FavoriteBloc favoriteBloc}) {
     _movies = [];
     _movieRepository = MovieRepository();
@@ -35,7 +35,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   Stream<MovieState> mapEventToState(MovieEvent event) async* {
     if (event is FetchMoviesEvent) {
       yield FetchingMovies();
-      if (_movies == null || _movies.isEmpty) {
+      if ((_movies == null || _movies.isEmpty)) {
         yield await _getMovies();
       } else
         yield SuccessFetchedMovies(_movies);
