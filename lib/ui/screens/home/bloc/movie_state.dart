@@ -1,17 +1,21 @@
-import 'package:equatable/equatable.dart';
 import 'package:movieapp/data/pojo/MovieResponse.dart';
 
-abstract class MovieState extends Equatable {
-  @override
+abstract class MovieState {
+//  @override
   List<Object> get props => [];
 }
 
 class FetchingMovies extends MovieState {
-  @override
+//  @override
   List<Object> get props => [];
 }
 
 class InitialState extends MovieState {
+  @override
+  List<Object> get props => [];
+}
+
+class IgnoreState extends MovieState {
   @override
   List<Object> get props => [];
 }

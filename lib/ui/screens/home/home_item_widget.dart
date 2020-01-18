@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movieapp/data/pojo/MovieResponse.dart';
 import 'package:movieapp/ui/AppWidgets.dart';
 import 'package:movieapp/ui/screens/movie_detail/movie_details.dart';
+
 import '../../../constants.dart';
 
 class HomeItemWidget extends StatelessWidget {
@@ -33,18 +34,17 @@ class HomeItemWidget extends StatelessWidget {
             ),
             Align(
               alignment: Alignment.topRight,
-              child: InkWell(
-                onTap: onTap2,
-                child: Container(
-                  margin: EdgeInsets.all(5.0),
-                  width: 40,
-                  height: 40,
-                  child: Icon(
-                    movie.isFavorite ? Icons.favorite : Icons.favorite_border,
-                    color: Colors.white,
-                    size: 40,
-                  ),
-                ),
+              child: Container(
+                margin: EdgeInsets.all(5.0),
+                width: 40,
+                height: 40,
+                child: FavouriteBtn(movie.isFavorite, onTap2),
+
+//                  Icon(
+//                    movie.isFavorite ? Icons.favorite : Icons.favorite_border,
+//                    color: Colors.white,
+//                    size: 40,
+//                  ),
               ),
             )
           ],

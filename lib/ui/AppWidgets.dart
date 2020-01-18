@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:movieapp/resources/AppColors.dart';
 
@@ -48,6 +49,53 @@ class ProgressBar extends StatelessWidget {
     return Center(
       child: CircularProgressIndicator(
         valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+      ),
+    );
+  }
+}
+
+class FavouriteBtn extends StatefulWidget {
+  final String _unFavorite = 'Unfavorited';
+  final String _makeITFavorite = 'Favorite';
+  final String _favorite = 'Favorited';
+  final String _makeItUnFavorite = 'Unfavorite';
+  final bool isFavoutrite;
+  final Function onPressed;
+
+  FavouriteBtn(this.isFavoutrite, this.onPressed);
+
+  @override
+  _FavouriteBtnState createState() => _FavouriteBtnState();
+}
+
+class _FavouriteBtnState extends State<FavouriteBtn> {
+  String animation;
+
+  @override
+  void initState() {
+    super.initState();
+    animation = widget.isFavoutrite ? widget._favorite : widget._unFavorite;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          animation = widget.isFavoutrite
+              ? widget._makeItUnFavorite
+              : widget._makeITFavorite;
+        });
+        if (animation == widget._makeItUnFavorite ||
+            animation == widget._makeITFavorite) {
+          widget.onPressed();
+        }
+      },
+      child: FlareActor(
+        'assets/favorite.flr',
+        fit: BoxFit.none,
+        animation: animation,
+        callback: (animation) {},
       ),
     );
   }

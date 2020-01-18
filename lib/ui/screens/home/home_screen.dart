@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:movieapp/data/pojo/MovieResponse.dart';
 import 'package:movieapp/resources/AppColors.dart';
 import 'package:movieapp/ui/AppWidgets.dart';
@@ -11,6 +12,7 @@ import 'package:movieapp/ui/screens/home/bloc/movie_events.dart';
 import 'package:movieapp/ui/screens/home/bloc/movie_state.dart';
 import 'package:movieapp/utils/Locale.dart';
 import 'package:movieapp/utils/di.dart';
+
 import 'home_item_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,13 +23,33 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   MovieBloc _movieBloc;
   FavoriteBloc _favoriteBloc;
+  ScrollController _scrollController;
+  bool isStateGetFromBloc = false;
 
   @override
   void initState() {
     super.initState();
+    _scrollController = ScrollController();
     _favoriteBloc = getIt.get<FavoriteBloc>();
     _movieBloc = getIt.get<MovieBloc>();
     _movieBloc.add(FetchMoviesEvent());
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        if (isStateGetFromBloc) {
+          _movieBloc.add(FetchMoviesEvent());
+          isStateGetFromBloc = false;
+          Fluttertoast.showToast(
+              msg: " at the end",
+              gravity: ToastGravity.CENTER,
+              timeInSecForIos: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0);
+        }
+      }
+    });
   }
 
   makeMovieFavorite2(Movie movie) {
@@ -38,8 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget getScreen(MovieState movieState) {
     if (movieState is FetchingMovies) {
       return ProgressBar();
-    }
-    if (movieState is ErrorFetchingMovies) {
+    } else if (movieState is ErrorFetchingMovies) {
       return Center(
         child: AutoSizeText(
           appLocale.tr(movieState.msg),
@@ -49,8 +70,17 @@ class _HomeScreenState extends State<HomeScreen> {
           textAlign: TextAlign.center,
         ),
       );
-    } else if (movieState is SuccessFetchedMovies)
+    } else if (movieState is SuccessFetchedMovies) {
+      isStateGetFromBloc = true;
+      Fluttertoast.showToast(
+          msg: "Update List ${movieState.movies.length}",
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
       return GridView.builder(
+        controller: _scrollController,
         itemCount: movieState.movies.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2, childAspectRatio: 0.75),
@@ -61,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         },
       );
-    return null;
+    }
   }
 
   @override

@@ -11,6 +11,11 @@ class FetchMoviesEvent extends MovieEvent {
   List<Object> get props => [pageNumber];
 }
 
+class RefreshMoviesEvent extends MovieEvent {
+  @override
+  List<Object> get props => [];
+}
+
 class ReFetchMoviesEvent extends MovieEvent {
   final int pageNumber = 1;
 

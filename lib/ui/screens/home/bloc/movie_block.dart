@@ -10,7 +10,8 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   MovieRepository _movieRepository;
   FavoriteBloc favoriteBloc;
   List<Movie> _movies;
-  int lastPageNumber = 0;
+  int lastPageNumber = 1;
+
   MovieBloc({FavoriteBloc favoriteBloc}) {
     _movies = [];
     _movieRepository = MovieRepository();
@@ -23,7 +24,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
                   .length >
               0);
         }
-        this.add(FetchMoviesEvent());
+        this.add(RefreshMoviesEvent());
       }
     });
   }
@@ -34,24 +35,36 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   @override
   Stream<MovieState> mapEventToState(MovieEvent event) async* {
     if (event is FetchMoviesEvent) {
-      yield FetchingMovies();
-      if ((_movies == null || _movies.isEmpty)) {
-        yield await _getMovies();
-      } else
+      if (lastPageNumber == 1) yield FetchingMovies();
+      yield await _getMovies(lastPageNumber);
+    } else if (event is RefreshMoviesEvent) {
+      if ((_movies == null || _movies.isEmpty))
+        yield SuccessFetchedMovies([]);
+      else
         yield SuccessFetchedMovies(_movies);
     } else if (event is ReFetchMoviesEvent) {
       yield FetchingMovies();
-      yield await _getMovies();
-      yield SuccessFetchedMovies(_movies);
+      lastPageNumber = 1;
+      _movies.clear();
+      yield await _getMovies(lastPageNumber);
     }
   }
 
-  Future<MovieState> _getMovies() async {
-    ApiResponse apiResponse = await _movieRepository.fetchMovies();
+  Future<MovieState> _getMovies(int pageNumber) async {
+    ApiResponse apiResponse =
+        await _movieRepository.fetchMovies(page: pageNumber);
     if (apiResponse.status == Status.COMPLETED) {
-      _movies = apiResponse.data;
+      _movies.addAll(apiResponse.data);
+      lastPageNumber++;
       return SuccessFetchedMovies(_movies);
     } else
       return ErrorFetchingMovies(apiResponse.messageKey);
+  }
+
+  @override
+  void onTransition(Transition<MovieEvent, MovieState> transition) {
+    print(transition);
+
+    super.onTransition(transition);
   }
 }
