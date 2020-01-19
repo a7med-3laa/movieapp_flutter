@@ -26,13 +26,11 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   void initState() {
     super.initState();
     _favoriteBloc = getIt<FavoriteBloc>();
-    _favoriteBloc.add(FavoriteMovies());
+    _favoriteBloc.add(FetchFavoriteMovies());
   }
 
   unFavoriteMovie(Movie movie) {
     _favoriteBloc.add(UnFavoriteMovie(movie));
-    Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text(appLocale.tr('UnFavorite_Msg', args: [movie.title]))));
   }
 
   @override
@@ -48,9 +46,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   Widget getWidget(FavoriteState movieState) {
     print(movieState.runtimeType.toString());
-    if (movieState is LoadingMovies) {
+    if (movieState is FavoriteMoviesLoading) {
       return ProgressBar();
-    } else if (movieState is GetFavortieMovies) {
+    } else if (movieState is FavoriteMoviesLoaded) {
       if (movieState.movies.length == 0) {
         return Container(
           width: double.infinity,

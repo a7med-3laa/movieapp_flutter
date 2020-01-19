@@ -1,12 +1,10 @@
 import 'dart:io';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movieapp/ui/screens/favourite/bloc/bloc.dart';
 import 'package:movieapp/ui/screens/home/bloc/movie_block.dart';
 import 'package:movieapp/ui/screens/home/bloc/movie_events.dart';
-import 'package:movieapp/ui/screens/home/bloc/movie_state.dart';
 import 'package:movieapp/utils/Locale.dart';
 import 'package:movieapp/utils/di.dart';
 

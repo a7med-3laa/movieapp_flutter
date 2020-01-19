@@ -23,7 +23,7 @@ class UnFavoriteMovie extends FavoriteEvent {
   List<Object> get props => [movie];
 }
 
-class FavoriteMovies extends FavoriteEvent {
+class FetchFavoriteMovies extends FavoriteEvent {
   @override
   List<Object> get props => [];
 }

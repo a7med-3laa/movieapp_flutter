@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:movieapp/data/network/ApiResponse.dart';
-import 'package:movieapp/data/network/RestClient.dart';
+import 'package:movieapp/data/network/MovieApiClient.dart';
 import 'package:movieapp/data/pojo/CastResponse.dart';
 import 'package:movieapp/data/pojo/MovieResponse.dart';
 import 'package:movieapp/data/pojo/movie_details_response.dart';
@@ -11,7 +11,7 @@ import 'package:movieapp/utils/di.dart';
 import 'package:rxdart/rxdart.dart';
 
 class NetworkService {
-  RestClient _restClient;
+  MovieApiClient _restClient;
   String _apiKey;
 
   NetworkService(String apiKey, {locale = const Locale('en', 'US')}) {
@@ -37,7 +37,7 @@ class NetworkService {
     }));
 
     dio.options.headers["Content-Type"] = "application/json";
-    _restClient = RestClient(dio);
+    _restClient = MovieApiClient(dio);
   }
 
   Future<ApiResponse<List<Movie>>> getMovies(int page) async {

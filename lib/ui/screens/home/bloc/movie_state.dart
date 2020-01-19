@@ -1,12 +1,13 @@
+import 'package:equatable/equatable.dart';
 import 'package:movieapp/data/pojo/MovieResponse.dart';
 
-abstract class MovieState {
-//  @override
+abstract class MovieState extends Equatable {
+  @override
   List<Object> get props => [];
 }
 
-class FetchingMovies extends MovieState {
-//  @override
+class MoviesLoading extends MovieState {
+  @override
   List<Object> get props => [];
 }
 
@@ -15,15 +16,10 @@ class InitialState extends MovieState {
   List<Object> get props => [];
 }
 
-class IgnoreState extends MovieState {
-  @override
-  List<Object> get props => [];
-}
-
-class ErrorFetchingMovies extends MovieState {
+class MoviesError extends MovieState {
   final String msg;
 
-  ErrorFetchingMovies(this.msg);
+  MoviesError(this.msg);
 
   @override
   List<Object> get props => [msg];
@@ -31,13 +27,13 @@ class ErrorFetchingMovies extends MovieState {
   String toString() => 'ErrorFetchingMovies{\'msg\': $msg}';
 }
 
-class SuccessFetchedMovies extends MovieState {
+class MoviesLoaded extends MovieState {
   final List<Movie> movies;
-
-  SuccessFetchedMovies(this.movies);
+  final int pageNumber;
+  MoviesLoaded(this.movies, this.pageNumber);
 
   @override
-  List<Object> get props => [movies];
+  List<Object> get props => [movies, this.pageNumber];
 
   @override
   String toString() => 'FetchMovies {movies:${movies.length}';

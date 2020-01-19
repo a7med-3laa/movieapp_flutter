@@ -10,16 +10,16 @@ class InitialFavoriteState extends FavoriteState {
   List<Object> get props => [];
 }
 
-class GetFavortieMovies extends FavoriteState {
+class FavoriteMoviesLoaded extends FavoriteState {
   final List<Movie> movies;
 
-  GetFavortieMovies(this.movies);
+  FavoriteMoviesLoaded(this.movies);
 
   @override
   List<Object> get props => [movies];
 }
 
-class LoadingMovies extends FavoriteState {
+class FavoriteMoviesLoading extends FavoriteState {
   @override
   List<Object> get props => [];
 }

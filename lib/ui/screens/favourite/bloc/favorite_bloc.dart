@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:movieapp/data/database/DbService.dart';
 import 'package:movieapp/utils/di.dart';
@@ -21,19 +22,19 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     if (event is FavoriteMovie) {
       await _dbService.insertMovie(event.movie);
       var movies = await _dbService.getMovies();
-      yield GetFavortieMovies(movies);
+      yield FavoriteMoviesLoaded(movies);
     } else if (event is UnFavoriteMovie) {
       await _dbService.deleteMovie(event.movie.id);
       var movies = await _dbService.getMovies();
-      yield GetFavortieMovies(movies);
-    } else if (event is FavoriteMovies) {
-      yield LoadingMovies();
+      yield FavoriteMoviesLoaded(movies);
+    } else if (event is FetchFavoriteMovies) {
+      yield FavoriteMoviesLoading();
       var movies = await _dbService.getMovies();
-      yield GetFavortieMovies(movies);
+      yield FavoriteMoviesLoaded(movies);
     } else if (event is ClearFavorite) {
-      yield LoadingMovies();
+      yield FavoriteMoviesLoading();
       await _dbService.clearFavorite();
-      yield GetFavortieMovies([]);
+      yield FavoriteMoviesLoaded([]);
     }
   }
 }

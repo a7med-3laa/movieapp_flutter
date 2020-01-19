@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:movieapp/data/pojo/MovieResponse.dart';
 import 'package:movieapp/resources/AppColors.dart';
 import 'package:movieapp/ui/AppWidgets.dart';
@@ -40,13 +39,6 @@ class _HomeScreenState extends State<HomeScreen> {
         if (isStateGetFromBloc) {
           _movieBloc.add(FetchMoviesEvent());
           isStateGetFromBloc = false;
-          Fluttertoast.showToast(
-              msg: " at the end",
-              gravity: ToastGravity.CENTER,
-              timeInSecForIos: 1,
-              backgroundColor: Colors.black,
-              textColor: Colors.white,
-              fontSize: 16.0);
         }
       }
     });
@@ -57,10 +49,8 @@ class _HomeScreenState extends State<HomeScreen> {
         .add(movie.isFavorite ? UnFavoriteMovie(movie) : FavoriteMovie(movie));
   }
 
-  Widget getScreen(MovieState movieState) {
-    if (movieState is FetchingMovies) {
-      return ProgressBar();
-    } else if (movieState is ErrorFetchingMovies) {
+  Widget getWidget(MovieState movieState) {
+    if (movieState is MoviesError) {
       return Center(
         child: AutoSizeText(
           appLocale.tr(movieState.msg),
@@ -70,15 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
           textAlign: TextAlign.center,
         ),
       );
-    } else if (movieState is SuccessFetchedMovies) {
+    } else if (movieState is MoviesLoaded) {
       isStateGetFromBloc = true;
-      Fluttertoast.showToast(
-          msg: "Update List ${movieState.movies.length}",
-          gravity: ToastGravity.CENTER,
-          timeInSecForIos: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
       return GridView.builder(
         controller: _scrollController,
         itemCount: movieState.movies.length,
@@ -91,7 +74,8 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         },
       );
-    }
+    } else
+      return ProgressBar();
   }
 
   @override
@@ -101,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
         return Container(
           width: double.infinity,
           color: AppColors.COLOR_DARK_PRIMARY,
-          child: getScreen(movieState),
+          child: getWidget(movieState),
         );
       },
     );

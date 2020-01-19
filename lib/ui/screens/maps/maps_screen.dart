@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:io';
-import 'dart:math';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +7,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:movieapp/resources/AppColors.dart';
 import 'package:movieapp/ui/AppWidgets.dart';
-import 'package:movieapp/ui/screens/maps/location_service.dart';
 import 'package:movieapp/utils/Locale.dart';
 
 class MapsScreen extends StatefulWidget {

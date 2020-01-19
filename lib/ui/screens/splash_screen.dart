@@ -5,8 +5,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:movieapp/main.dart';
 import 'package:movieapp/resources/AppColors.dart';
-import 'package:movieapp/ui/screens/home/home_screen.dart';
-import 'package:movieapp/utils/Locale.dart';
 
 class SplashScreen extends StatefulWidget {
   @override

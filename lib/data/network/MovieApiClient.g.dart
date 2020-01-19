@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'RestClient.dart';
+part of 'MovieApiClient.dart';
 
 // **************************************************************************
 // RetrofitGenerator
 // **************************************************************************
 
-class _RestClient implements RestClient {
+class _RestClient implements MovieApiClient {
   _RestClient(this._dio, {this.baseUrl}) {
     ArgumentError.checkNotNull(_dio, '_dio');
     this.baseUrl ??= 'https://api.themoviedb.org/3/';

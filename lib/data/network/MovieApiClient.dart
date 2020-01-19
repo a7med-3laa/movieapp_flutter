@@ -8,11 +8,11 @@ import 'package:retrofit/retrofit.dart';
 
 import '../../constants.dart';
 
-part 'RestClient.g.dart';
+part 'MovieApiClient.g.dart';
 
 @RestApi(baseUrl: BASE_URL)
-abstract class RestClient {
-  factory RestClient(Dio dio) = _RestClient;
+abstract class MovieApiClient {
+  factory MovieApiClient(Dio dio) = _RestClient;
 
   @GET(MOVIES_PATH)
   Future<MovieResponse> getMovies(@Query('page') int page);

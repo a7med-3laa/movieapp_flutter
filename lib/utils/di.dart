@@ -1,12 +1,9 @@
-import 'package:easy_localization/easy_localization_provider.dart';
-import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:movieapp/data/database/DbService.dart';
 import 'package:movieapp/data/network/NetworkService.dart';
 import 'package:movieapp/ui/screens/favourite/bloc/favorite_bloc.dart';
 import 'package:movieapp/ui/screens/home/bloc/movie_block.dart';
 import 'package:movieapp/utils/Secret.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 final GetIt getIt = GetIt.instance;
 

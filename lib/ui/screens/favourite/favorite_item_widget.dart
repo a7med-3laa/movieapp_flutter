@@ -1,9 +1,11 @@
 import 'dart:ui';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:movieapp/data/pojo/MovieResponse.dart';
 import 'package:movieapp/ui/AppWidgets.dart';
 import 'package:movieapp/ui/screens/movie_detail/movie_details.dart';
+
 import '../../../constants.dart';
 
 class FavoriteItemWidget extends StatelessWidget {
@@ -61,17 +63,7 @@ class FavoriteItemWidget extends StatelessWidget {
                   ),
                   Expanded(
                     flex: 2,
-                    child: IconButton(
-                      onPressed: onTap2,
-                      iconSize: 50,
-                      icon: Icon(
-                        movie.isFavorite
-                            ? Icons.favorite
-                            : Icons.favorite_border,
-                        color: Colors.white,
-                        size: 50,
-                      ),
-                    ),
+                    child: FavouriteBtn(movie.isFavorite, onTap2),
                   ),
                 ],
               ),
