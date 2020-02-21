@@ -83,9 +83,26 @@ class _MapsScreenState extends State<MapsScreen> {
         }
       }
     } else {
-      setState(() {
-        canGetLocation = LocationState.refused;
-      });
+      if (await location.requestPermission() == true) {
+        if (await location.serviceEnabled() == true) {
+          setState(() {
+            canGetLocation = LocationState.success;
+          });
+        } else {
+          if (await location.requestService() == true)
+            setState(() {
+              canGetLocation = LocationState.success;
+            });
+          else {
+            setState(() {
+              canGetLocation = LocationState.refused;
+            });
+          }
+        }
+      } else
+        setState(() {
+          canGetLocation = LocationState.refused;
+        });
     }
   }
 
