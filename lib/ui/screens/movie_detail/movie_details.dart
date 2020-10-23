@@ -12,7 +12,6 @@ import 'package:movieapp/ui/screens/movie_detail/actor_item_widget.dart';
 import 'package:movieapp/ui/screens/movie_detail/review_item_widget.dart';
 import 'package:movieapp/ui/screens/movie_detail/review_screen.dart';
 import 'package:movieapp/ui/screens/movie_detail/video_item_widget.dart';
-import 'package:movieapp/utils/Locale.dart';
 import 'package:movieapp/utils/UrlUtils.dart';
 import 'package:movieapp/utils/di.dart';
 import 'package:movieapp/utils/typed_text.dart';
@@ -40,9 +39,7 @@ class _MovieDetailsState extends State<MovieDetails> {
   @override
   Widget build(BuildContext context) {
     //  print(widget.movie.cast.length);
-    return EasyLocalizationProvider(
-      data: appLocale.data,
-      child: Scaffold(
+    return Scaffold(
         backgroundColor: AppColors.COLOR_DARK_PRIMARY,
         body: CustomScrollView(
           slivers: <Widget>[
@@ -110,7 +107,6 @@ class _MovieDetailsState extends State<MovieDetails> {
           ),
           backgroundColor: AppColors.COLOR_ACCENT,
         ),
-      ),
     );
   }
 
@@ -125,7 +121,7 @@ class _MovieDetailsState extends State<MovieDetails> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            SubTitleWidget(appLocale.tr('Reviews')),
+            SubTitleWidget(tr('Reviews')),
             SizedBox(
               height: 5,
             ),
@@ -159,7 +155,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                                         ReviewScreen(widget.movie.reviews)));
                           },
                           child: AutoSizeText(
-                            appLocale.tr('All_Reviews'),
+                            tr('All_Reviews'),
                             minFontSize: 20,
                             maxFontSize: 23,
                             style: (TextStyle(color: Colors.orange)),
@@ -186,7 +182,7 @@ class _MovieDetailsState extends State<MovieDetails> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            SubTitleWidget(appLocale.tr('Videos')),
+            SubTitleWidget(tr('Videos')),
             Flexible(
               child: Container(
                 height: 170,
@@ -214,7 +210,7 @@ class _MovieDetailsState extends State<MovieDetails> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            SubTitleWidget(appLocale.tr('Actors')),
+            SubTitleWidget(tr('Actors')),
             Container(
               height: 200,
               child: ListView.builder(
@@ -234,7 +230,7 @@ class _MovieDetailsState extends State<MovieDetails> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          SubTitleWidget(appLocale.tr('Description')),
+          SubTitleWidget(tr('Description')),
           AutoSizeText(
             '${widget.movie.overview}',
             minFontSize: 15,
@@ -283,7 +279,7 @@ class HeaderWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               SizedBox(height: 5),
-              SubTitleWidget(appLocale.tr('Release_date')),
+              SubTitleWidget(tr('Release_date')),
               SizedBox(height: 5),
               AutoSizeText(
                 '${formatDate(DateTime.now(), [dd, '-', mm, '-', yyyy])}',
@@ -294,9 +290,9 @@ class HeaderWidget extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
               SizedBox(height: 5),
-              SubTitleWidget(appLocale.tr('Vote')),
+              SubTitleWidget(tr('Vote')),
               AutoSizeText(
-                  appLocale.tr('Vote_degreee',
+                  tr('Vote_degreee',
                       args: [movie.voteAverage.floor().toString()]),
                   minFontSize: 15,
                   maxFontSize: 20,

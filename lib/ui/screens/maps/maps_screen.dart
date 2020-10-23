@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:movieapp/resources/AppColors.dart';
 import 'package:movieapp/ui/AppWidgets.dart';
-import 'package:movieapp/utils/Locale.dart';
 
 class MapsScreen extends StatefulWidget {
   MapsScreen({Key key}) : super(key: key);
@@ -115,7 +115,7 @@ class _MapsScreenState extends State<MapsScreen> {
         height: double.infinity,
         child: Center(
           child: AutoSizeText(
-            appLocale.tr('Location_Error'),
+            tr('Location_Error'),
             minFontSize: 20,
             maxFontSize: 30,
             style: TextStyle(color: AppColors.TEXT_COLOR),

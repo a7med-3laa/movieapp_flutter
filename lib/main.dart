@@ -2,21 +2,19 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:movieapp/resources/AppColors.dart';
 import 'package:movieapp/ui/screens/favourite/bloc/bloc.dart';
 import 'package:movieapp/ui/screens/favourite/favorite_screen.dart';
 import 'package:movieapp/ui/screens/home/bloc/movie_block.dart';
 import 'package:movieapp/ui/screens/home/home_screen.dart';
 import 'package:movieapp/ui/screens/maps/maps_screen.dart';
-import 'package:movieapp/utils/Locale.dart';
 import 'package:movieapp/utils/di.dart' as di;
-import 'package:easy_localization/easy_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:movieapp/utils/alert_dialog_widget.dart';
 import 'package:movieapp/ui/screens/splash_screen.dart';
 
 import 'data/network/NetworkService.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,33 +30,26 @@ void main() async {
   }
   await di.initApp();
 
-  runApp(EasyLocalization(child: MyApp()));
+  runApp(EasyLocalization(
+      supportedLocales: [Locale('en', 'US'), Locale('ar', 'EG')],
+      path: 'langs', // <-- change patch to your
+      fallbackLocale: Locale('en', 'US'),
+      child: MyApp()
+  ),);
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    appLocale = AppLocale(context);
-    return EasyLocalizationProvider(
-      data: appLocale.data,
-      child: MaterialApp(
+    return MaterialApp(
           debugShowCheckedModeBanner: false,
-          localizationsDelegates: [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-
-            //app-specific localization
-            EasylocaLizationDelegate(
-                locale: EasyLocalizationProvider.of(context).data.locale,
-                path: 'langs'),
-          ],
-          supportedLocales: [Locale('en', 'US'), Locale('ar', 'EG')],
-          locale: EasyLocalizationProvider.of(context).data.savedLocale,
-          theme: ThemeData(
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        theme: ThemeData(
             primarySwatch: AppColors.COLOR_PRIMARY,
           ),
-          home: SplashScreen()),
+          home: SplashScreen()
     );
   }
 }
@@ -86,10 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    appLocale = AppLocale(context);
-    return EasyLocalizationProvider(
-      data: appLocale.data,
-      child: MultiBlocProvider(
+    return MultiBlocProvider(
         providers: [
           BlocProvider<MovieBloc>(
             create: (BuildContext context) => di.getIt<MovieBloc>(),
@@ -100,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
         child: Scaffold(
           appBar: AppBar(
-            title: Text(appLocale.tr('Title')),
+            title: Text(tr('Title')),
             actions: <Widget>[
               IconButton(
                   icon: Icon(
@@ -125,13 +113,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     Icons.home,
                     color: Colors.green,
                   ),
-                  title: Text(appLocale.tr('Home_Tab_title'))),
+                  label: (tr('Home_Tab_title'))),
               BottomNavigationBarItem(
                   icon: Icon(Icons.favorite, color: Colors.green),
-                  title: Text(appLocale.tr('Favorite_Tab_title'))),
+                  label: (tr('Favorite_Tab_title'))),
               BottomNavigationBarItem(
                   icon: Icon(Icons.map, color: Colors.green),
-                  title: Text(appLocale.tr('Cinema_Tab_title'))),
+                  label: (tr('Cinema_Tab_title'))),
             ],
             backgroundColor: Colors.blueGrey,
             currentIndex: _selectedIndex,
@@ -142,7 +130,6 @@ class _MyHomePageState extends State<MyHomePage> {
             }),
           ),
         ),
-      ),
     );
   }
 }
@@ -165,11 +152,11 @@ class _SettingModalSheetWidgetState extends State<SettingModalSheetWidget> {
   @override
   Widget build(BuildContext context) {
     if (selectedValue == -1) {
-      selectedValue =
-          (EasyLocalizationProvider.of(context).data.savedLocale.languageCode ==
-                  'en')
-              ? 1
-              : 2;
+      selectedValue =1;
+          // (EasyLocalizationProvider.of(context).data.savedLocale.languageCode ==
+          //         'en')
+          //     ? 1
+          //     : 2;
     }
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -178,7 +165,7 @@ class _SettingModalSheetWidgetState extends State<SettingModalSheetWidget> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             AutoSizeText(
-              appLocale.tr('Modal_sheet_title'),
+              tr('Modal_sheet_title'),
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
@@ -196,7 +183,7 @@ class _SettingModalSheetWidgetState extends State<SettingModalSheetWidget> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     AutoSizeText(
-                      appLocale.tr('Lang_Settings_label'),
+                      tr('Lang_Settings_label'),
                       minFontSize: 15,
                       maxFontSize: 20,
                       style: TextStyle(color: Colors.black),
@@ -248,14 +235,14 @@ class _SettingModalSheetWidgetState extends State<SettingModalSheetWidget> {
                   builder: (BuildContext context) {
                     return AlertDialogWidget(() {
                       if (this.selectedValue == 1) {
-                        appLocale.data.changeLocale(Locale("en", "US"));
-                        di.getIt.registerSingleton(Locale("en", "US"),
+                        context.locale=(Locale("ar", "EG"));
+                        di.getIt.registerSingleton(Locale("ar", "EG"),
                             instanceName: di.LANG_NAME);
                         di.getIt<NetworkService>().resetDio();
 
                         print(Localizations.localeOf(context).languageCode);
                       } else if (this.selectedValue == 2) {
-                        appLocale.data.changeLocale(Locale("ar", "EG"));
+                        context.locale=(Locale("ar", "EG"));
                         di.getIt.registerSingleton(Locale("ar", "EG"),
                             instanceName: di.LANG_NAME);
                         di.getIt<NetworkService>().resetDio();
@@ -269,7 +256,7 @@ class _SettingModalSheetWidgetState extends State<SettingModalSheetWidget> {
                 );
               },
               child: AutoSizeText(
-                appLocale.tr('Save_btn'),
+                tr('Save_btn'),
                 style: TextStyle(color: Colors.white),
                 textAlign: TextAlign.center,
               ),

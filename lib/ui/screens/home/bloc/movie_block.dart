@@ -13,7 +13,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   List<Movie> _movies;
   int lastPageNumber = 1;
 
-  MovieBloc({FavoriteBloc favoriteBloc}) {
+  MovieBloc({FavoriteBloc favoriteBloc}) : super() {
     _movies = [];
     _movieRepository = MovieRepository();
     this.favoriteBloc = favoriteBloc;

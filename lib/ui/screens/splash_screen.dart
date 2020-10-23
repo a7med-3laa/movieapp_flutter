@@ -23,8 +23,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return EasyLocalizationProvider(
-      data: EasyLocalizationProvider.of(context).data,
       child: Scaffold(
         body: Container(
           width: double.infinity,
@@ -41,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
             height: double.infinity,
             child: Center(
               child: AutoSizeText(
-                AppLocalizations.of(context).tr('Title'),
+                tr('Title'),
                 minFontSize: 25,
                 maxFontSize: 30,
                 textAlign: TextAlign.center,
@@ -50,7 +48,6 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           ),
         ),
-      ),
     );
   }
 }

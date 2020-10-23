@@ -1,11 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieapp/data/pojo/MovieResponse.dart';
 import 'package:movieapp/resources/AppColors.dart';
 import 'package:movieapp/ui/screens/favourite/bloc/favorite_state.dart';
 import 'package:movieapp/ui/screens/favourite/favorite_item_widget.dart';
-import 'package:movieapp/utils/Locale.dart';
 import 'package:movieapp/utils/di.dart';
 
 import '../../AppWidgets.dart';
@@ -55,7 +55,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
           height: double.infinity,
           child: Center(
             child: AutoSizeText(
-              appLocale.tr('Favourite_empty'),
+              tr('Favourite_empty'),
               minFontSize: 20,
               maxFontSize: 30,
               style: TextStyle(color: AppColors.TEXT_COLOR),

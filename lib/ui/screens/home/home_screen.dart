@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieapp/data/pojo/MovieResponse.dart';
@@ -9,7 +10,6 @@ import 'package:movieapp/ui/screens/favourite/bloc/favorite_bloc.dart';
 import 'package:movieapp/ui/screens/home/bloc/movie_block.dart';
 import 'package:movieapp/ui/screens/home/bloc/movie_events.dart';
 import 'package:movieapp/ui/screens/home/bloc/movie_state.dart';
-import 'package:movieapp/utils/Locale.dart';
 import 'package:movieapp/utils/di.dart';
 
 import 'home_item_widget.dart';
@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (movieState is MoviesError) {
       return Center(
         child: AutoSizeText(
-          appLocale.tr(movieState.msg),
+          tr(movieState.msg),
           minFontSize: 20,
           maxFontSize: 30,
           style: TextStyle(color: AppColors.TEXT_COLOR),

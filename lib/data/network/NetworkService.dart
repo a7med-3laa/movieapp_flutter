@@ -21,7 +21,7 @@ class NetworkService {
 
   resetDio({Locale locale}) {
     Dio dio = Dio(); // Provide a dio instance
-    Locale temp = getIt<Locale>(LANG_NAME);
+    Locale temp = getIt<Locale>(instanceName:LANG_NAME);
     if (temp != null) {
       locale = temp;
     }
